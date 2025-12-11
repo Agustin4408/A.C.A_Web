@@ -208,50 +208,65 @@
     </button>
 
     <script>
-        // Efectos Visuales (Barra y Header)
+        // --- 1. BARRA DE PROGRESO Y HEADER ---
         window.addEventListener('scroll', () => {
             const h = document.documentElement, b = document.body, st = 'scrollTop', sh = 'scrollHeight';
-            const p = ((h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight)) * 100;
-            document.getElementById("scrollProgress").style.width = p + "%";
+            document.getElementById("scrollProgress").style.width = ((h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight)) * 100 + "%";
             document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
             
             const btn = document.getElementById('backToTop');
-            if(window.scrollY > 500) btn.classList.add('show'); else btn.classList.remove('show');
+            if(btn) {
+                if(window.scrollY > 500) btn.classList.add('show'); else btn.classList.remove('show');
+            }
         });
 
-        document.getElementById('backToTop').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        if(document.getElementById('backToTop')){
+            document.getElementById('backToTop').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
 
-        // --- LÓGICA DE CARGA DE NOTICIAS ---
+        // --- 2. LÓGICA DE CARGA DE NOTICIAS (MODO DIAGNÓSTICO) ---
         async function loadNews() {
             const container = document.getElementById('newsContainer');
             const titleSection = document.getElementById('dynamicNewsTitle');
 
             try {
-                // AGREGAMOS '?v=...' PARA EVITAR QUE EL NAVEGADOR USE MEMORIA VIEJA
+                // Truco anti-cache: ?v=timestamp obliga a leer la versión nueva
                 const response = await fetch('data/noticias.json?v=' + new Date().getTime());
                 
-                if (!response.ok) throw new Error("No se encontró el archivo JSON");
+                if (!response.ok) throw new Error("No se encontró el archivo data/noticias.json");
 
                 const data = await response.json();
                 
-                // Verificamos si existe la lista 'items' dentro del JSON
-                const noticias = data.items || [];
+                // CONSOLA: Muestra qué descargó (para que tú lo veas con F12)
+                console.log("Datos recibidos del Admin:", data);
 
+                // INTELIGENCIA: Busca las noticias donde sea que estén
+                // 1. ¿Están dentro de "items"? (Formato normal de Netlify CMS)
+                // 2. ¿O son el objeto directo?
+                let noticias = [];
+                
+                if (data.items && Array.isArray(data.items)) {
+                    noticias = data.items;
+                } else if (Array.isArray(data)) {
+                    noticias = data;
+                } else {
+                    console.log("El archivo JSON existe pero está vacío o tiene formato raro.");
+                }
+
+                // SI ENCONTRAMOS NOTICIAS...
                 if (noticias.length > 0) {
-                    // Mostrar título
                     if(titleSection) titleSection.style.display = 'block';
-                    
-                    // Limpiar mensaje de carga
-                    if(container.innerHTML.includes('fa-spinner')) container.innerHTML = '';
+                    container.innerHTML = ''; // Limpiamos el loader
 
-                    // Recorrer y crear tarjetas
                     noticias.forEach(item => {
-                        // Validar imagen
+                        // Protecciones por si falta algún dato
                         const imgUrl = item.imagen ? item.imagen : 'https://placehold.co/400x300?text=A.C.A.';
+                        const titulo = item.titulo || "Sin título";
+                        const fecha = item.fecha || "";
+                        const desc = item.descripcion || "";
                         
-                        // Botón de Flyer (solo si se subió uno)
                         let flyerBtn = '';
                         if (item.flyer) {
                             flyerBtn = `
@@ -262,43 +277,54 @@
                                 </div>`;
                         }
 
-                        const cardHTML = `
+                        // Insertamos la tarjeta
+                        container.innerHTML += `
                             <article class="news-card reveal">
                                 <div class="nc-img">
-                                    <img src="${imgUrl}" alt="${item.titulo}" onerror="this.src='https://placehold.co/400?text=Sin+Imagen'">
+                                    <img src="${imgUrl}" alt="${titulo}" onerror="this.src='https://placehold.co/400?text=Error+Imagen'">
                                 </div>
                                 <div class="nc-content">
-                                    <span class="nc-date">${item.fecha}</span>
-                                    <h3>${item.titulo}</h3>
-                                    <p>${item.descripcion}</p>
+                                    <span class="nc-date">${fecha}</span>
+                                    <h3>${titulo}</h3>
+                                    <p>${desc}</p>
                                     ${flyerBtn}
                                 </div>
                             </article>
                         `;
-                        container.innerHTML += cardHTML;
                     });
 
                     // Activar animaciones
                     setTimeout(() => {
                         document.querySelectorAll('.reveal').forEach(r => r.classList.add('active'));
                     }, 500);
+                    
                 } else {
-                    console.log("El archivo JSON existe pero no tiene noticias.");
+                    // Si el array está vacío
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: white; border-radius: 10px;">
+                            <p style="color: #666;">El sistema funciona, pero aún no hay noticias cargadas desde el Admin.</p>
+                        </div>
+                    `;
                 }
 
             } catch (error) {
-                console.error('Error cargando noticias:', error);
-                // No mostramos error al usuario, simplemente no se ven las extras.
+                console.error('Error grave:', error);
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: red;">
+                        <p>Error leyendo noticias: ${error.message}</p>
+                    </div>
+                `;
             }
         }
 
-        // Ejecutar
+        // Ejecutar al cargar
         loadNews();
         
-        // Animaciones iniciales
+        // Animaciones iniciales (Scroll Reveal)
+        const revealElements = document.querySelectorAll('.reveal');
         const revealOnScroll = () => {
             const h = window.innerHeight;
-            document.querySelectorAll('.reveal').forEach(r => {
+            revealElements.forEach(r => {
                 if (r.getBoundingClientRect().top < h - 100) r.classList.add('active');
             });
         };
