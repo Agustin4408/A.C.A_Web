@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novedades | A.C.A. Fátima</title>
     
-    <link rel="shortcut icon" href="logo.png" type="image/png">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./script.js">
 
     <style>
-        /* --- ESTILOS --- */
+        /* --- VARIABLES (MISMAS QUE INDEX) --- */
         :root {
-            --color-primary: #002c5f;    
-            --color-accent: #4facfe;     
+            --color-primary: #002c5f;
+            --color-accent: #4facfe;
             --color-text: #333;
             --color-bg-light: #f4f7fa;
-            --color-white: #ffffff;
+            --color-white: #fff;
             --shadow-card: 0 10px 30px rgba(0, 44, 95, 0.1);
             --transition: all 0.3s ease;
         }
@@ -29,6 +29,7 @@
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--color-primary); }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
 
+        /* --- HEADER --- */
         .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--color-accent); z-index: 2000; transition: width 0.1s; }
         header { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 15px 0; background: rgba(255, 255, 255, 0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
@@ -36,46 +37,83 @@
         .btn-back { border: 2px solid var(--color-primary); color: var(--color-primary); padding: 8px 25px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; }
         .btn-back:hover { background: var(--color-primary); color: var(--color-white); }
 
-        .page-header { background: linear-gradient(135deg, var(--color-primary), #001529); color: white; padding: 150px 20px 120px; text-align: center; clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); }
+        /* --- HERO HEADER --- */
+        .page-header {
+            background: linear-gradient(135deg, var(--color-primary), #001529);
+            color: white; padding: 150px 20px 120px; text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
         .page-header h1 { color: white; font-size: 3rem; margin-bottom: 10px; }
-        
-        /* ESTE ES EL CONTENEDOR PRINCIPAL QUE ORDENA TODO */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; flex: 1; }
+        .page-header p { font-size: 1.2rem; opacity: 0.8; max-width: 600px; margin: 0 auto; }
 
-        /* NOTICIA FIJA (PESEBRE) */
-        .featured-news { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); margin-top: -100px; display: flex; flex-direction: column; position: relative; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 60px; }
-        .featured-badge { position: absolute; top: 20px; left: 20px; background: #e74c3c; color: white; padding: 8px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; z-index: 10; }
-        .featured-img { height: 400px; width: 100%; position: relative; overflow: hidden; }
-        .featured-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px 80px; flex: 1; }
+
+        /* --- NOTICIA DESTACADA (PRINCIPAL) --- */
+        .featured-news {
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1); margin-top: -100px; /* Flotando sobre el header */
+            display: flex; flex-direction: column; position: relative; border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .featured-badge {
+            position: absolute; top: 20px; left: 20px; background: #e74c3c; color: white;
+            padding: 8px 20px; border-radius: 50px; font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index: 10;
+        }
+
+        .featured-img { height: 450px; width: 100%; position: relative; overflow: hidden; }
+        .featured-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .featured-news:hover .featured-img img { transform: scale(1.05); }
+
         .featured-content { padding: 50px; }
-        .featured-meta { display: flex; gap: 20px; color: #666; font-size: 0.95rem; margin-bottom: 20px; font-weight: 600; }
-        .featured-content h2 { font-size: 2.2rem; margin-bottom: 20px; line-height: 1.2; }
-        .btn-read-more { display: inline-block; background: var(--color-primary); color: white; padding: 15px 40px; border-radius: 50px; font-weight: 700; transition: 0.3s; font-size: 1rem; }
+        .featured-meta { display: flex; gap: 20px; color: #666; font-size: 0.95rem; margin-bottom: 20px; }
+        .featured-meta i { color: var(--color-accent); margin-right: 5px; }
+        
+        .featured-content h2 { font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2; color: var(--color-primary); }
+        .featured-content p { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 30px; }
+
+        .btn-read-more {
+            display: inline-block; background: var(--color-primary); color: white;
+            padding: 15px 40px; border-radius: 50px; font-weight: 700; transition: 0.3s;
+            font-size: 1rem;
+        }
         .btn-read-more:hover { background: var(--color-accent); transform: translateY(-3px); }
 
-        /* NOTICIAS DINÁMICAS (ADMIN) */
-        .news-section-title { font-size: 1.8rem; margin-bottom: 30px; padding-left: 15px; border-left: 5px solid var(--color-accent); margin-top: 40px; display: none; }
-        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
-        .news-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition); display: flex; flex-direction: column; }
-        .news-card:hover { transform: translateY(-10px); }
-        .nc-img { height: 220px; overflow: hidden; }
-        .nc-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .news-card:hover .nc-img img { transform: scale(1.1); }
-        .nc-content { padding: 25px; flex: 1; display: flex; flex-direction: column; }
-        .nc-date { font-size: 0.85rem; color: var(--color-accent); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .nc-content h3 { font-size: 1.4rem; margin-bottom: 15px; line-height: 1.4; }
-        .nc-content p { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; flex: 1; }
-        .nc-actions a { color: var(--color-primary); font-weight: 700; text-decoration: underline; }
-
+        /* --- FOOTER --- */
         .wave-footer { line-height: 0; width: 100%; transform: rotate(0deg); margin-top: auto; }
         .wave-footer svg { width: 100%; height: 150px; fill: var(--color-primary); }
-        footer { background: var(--color-primary); color: var(--color-white); padding-bottom: 40px; text-align: center; }
+
+        footer { background: var(--color-primary); color: var(--color-white); padding-bottom: 40px; }
+        
+        .footer-content {
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 50px; padding: 40px 0 60px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px;
+        }
+
+        .footer-col h3 { color: var(--color-white); margin-bottom: 25px; font-size: 1.5rem; }
+        .footer-col p { opacity: 0.7; line-height: 1.8; margin-bottom: 20px; }
+        .footer-col h4 { color: var(--color-accent); margin-bottom: 25px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-links a { opacity: 0.8; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .footer-links a:hover { opacity: 1; color: var(--color-accent); transform: translateX(5px); }
+        .social-vertical { display: flex; flex-direction: column; gap: 15px; }
+        .social-link { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 12px 20px; border-radius: 10px; transition: var(--transition); }
+        .social-link:hover { background: var(--color-accent); transform: translateY(-3px); color: var(--color-primary); font-weight: 700; }
+        .copyright { text-align: center; padding-top: 30px; font-size: 0.9rem; opacity: 0.6; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.2rem; }
+            .featured-news { margin-top: -80px; }
+            .featured-img { height: 250px; }
+            .featured-content { padding: 30px; }
+            .featured-content h2 { font-size: 1.8rem; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
         
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        @media (max-width: 768px) { .featured-news { margin-top: -80px; } .featured-img { height: 250px; } }
     </style>
 </head>
 <body>
@@ -92,16 +130,16 @@
     <div class="page-header">
         <div class="reveal">
             <h1>Novedades A.C.A.</h1>
-            <p>Mantente al día con todas las actividades, avisos y eventos.</p>
+            <p>Mantente al día con todas las actividades, avisos y eventos de nuestra comunidad.</p>
         </div>
     </div>
 
     <div class="container">
         
-        <article class="featured-news reveal active">
-            <span class="featured-badge">¡Muy Pronto!</span>
+        <article class="featured-news reveal">
+            <span class="featured-badge">¡Este Sábado!</span>
             <div class="featured-img">
-                <img src="https://images.unsplash.com/photo-1576016770857-7977eb289c09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Pesebre Viviente">
+                <img src="./img/pesebre.jpeg" alt="Pesebre Viviente">
             </div>
             <div class="featured-content">
                 <div class="featured-meta">
@@ -109,48 +147,111 @@
                     <span><i class="fas fa-map-marker-alt"></i> Frente a la Parroquia</span>
                 </div>
                 <h2>Gran Pesebre Viviente Comunitario</h2>
-                <p>Llega el momento más especial del año. Este fin de semana, toda la comunidad representará el nacimiento de Jesús.</p>
+                <p>
+                    Llega el momento más especial del año. Este fin de semana, toda la comunidad de Acción Católica, junto a los grupos de Catequesis y Confirmación, representarán el nacimiento de Jesús. 
+                    <br><br>
+                    Será una noche llena de emoción, música y fe para preparar nuestros corazones antes de Navidad. No te pierdas los actos preparados por los chicos y el mensaje final para el barrio.
+                </p>
                 <a href="pesebre.html" class="btn-read-more">Ver Cronograma e Info <i class="fas fa-arrow-right"></i></a>
+                
             </div>
         </article>
 
-        <div id="dynamicNewsTitle" style="display:none;">
-            <h3 class="news-section-title">Más Novedades</h3>
+    </div>
+
+    <div class="wave-footer">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
+        </svg>
+    </div>
+
+    <footer id="contacto">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>A.C.A. Fátima</h3>
+                <p>Una comunidad de puertas abiertas. Caminando juntos hacia la santidad, con alegría y servicio.</p>
+            </div>
+            
+            <div class="footer-col footer-links">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="#grupos"><i class="fas fa-chevron-right"></i> Grupos</a></li>
+                    <li><a href="./novedades.html"><i class="fas fa-chevron-right"></i> Novedades</a></li>
+                    <li><a href="./invitacion.html"><i class="fas fa-chevron-right"></i> Inscripciones</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col footer-contact">
+                <h4>Encuéntranos</h4>
+                <p><i class="fas fa-map-marker-alt" style="margin-right:10px;"></i> Zeppelin 6752, Catán</p>
+                <p><i class="fas fa-phone" style="margin-right:10px;"></i> +54 9 11 3827 2256</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div class="social-vertical">
+                    <a href="https://www.facebook.com/people/Acci%C3%B3n-Catolica-F%C3%A1tima/61579766170361/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" class="social-link"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="https://www.instagram.com/acafatima_/" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://www.tiktok.com/@accion.catolica.fa?_t=ZM-8z4TGZezeZq&_r=1&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn53y_E-LB1R7RWzPxaSYDieuDrNzDs2bkxy8P5fT88dOZo4Xk8GKrLXjdFog_aem_QbZDykXjkBmm86_-Huen0Q" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
+                </div>
+            </div>
         </div>
         
-        <div class="news-grid" id="newsContainer">
-            </div>
+        <div class="copyright">
+            <p>© 2025 Acción Católica Argentina - N.S. de Fátima. ¡Alabado sea Jesucristo!</p>
+        </div>
+    </footer>
 
-    </div> <div class="wave-footer"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path></svg></div>
-    <footer><p>© 2024 Acción Católica Argentina - N.S. de Fátima</p></footer>
+    <button id="backToTop" title="Subir">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
     <script>
-        // Efectos Visuales
+        // Efectos Visuales (Barra y Header)
         window.addEventListener('scroll', () => {
             const h = document.documentElement, b = document.body, st = 'scrollTop', sh = 'scrollHeight';
-            document.getElementById("scrollProgress").style.width = ((h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight)) * 100 + "%";
+            const p = ((h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight)) * 100;
+            document.getElementById("scrollProgress").style.width = p + "%";
             document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
+            
+            const btn = document.getElementById('backToTop');
+            if(window.scrollY > 500) btn.classList.add('show'); else btn.classList.remove('show');
         });
 
-        // LÓGICA DE CARGA DE NOTICIAS
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- LÓGICA DE CARGA DE NOTICIAS ---
         async function loadNews() {
             const container = document.getElementById('newsContainer');
             const titleSection = document.getElementById('dynamicNewsTitle');
 
             try {
-                // Usamos marca de tiempo para evitar caché viejo
+                // AGREGAMOS '?v=...' PARA EVITAR QUE EL NAVEGADOR USE MEMORIA VIEJA
                 const response = await fetch('data/noticias.json?v=' + new Date().getTime());
-                if (!response.ok) throw new Error("JSON no encontrado");
+                
+                if (!response.ok) throw new Error("No se encontró el archivo JSON");
+
                 const data = await response.json();
+                
+                // Verificamos si existe la lista 'items' dentro del JSON
                 const noticias = data.items || [];
 
                 if (noticias.length > 0) {
+                    // Mostrar título
                     if(titleSection) titleSection.style.display = 'block';
-                    container.innerHTML = ''; // Limpiar
+                    
+                    // Limpiar mensaje de carga
+                    if(container.innerHTML.includes('fa-spinner')) container.innerHTML = '';
 
+                    // Recorrer y crear tarjetas
                     noticias.forEach(item => {
+                        // Validar imagen
                         const imgUrl = item.imagen ? item.imagen : 'https://placehold.co/400x300?text=A.C.A.';
                         
+                        // Botón de Flyer (solo si se subió uno)
                         let flyerBtn = '';
                         if (item.flyer) {
                             flyerBtn = `
@@ -161,9 +262,11 @@
                                 </div>`;
                         }
 
-                        container.innerHTML += `
+                        const cardHTML = `
                             <article class="news-card reveal">
-                                <div class="nc-img"><img src="${imgUrl}" alt="${item.titulo}"></div>
+                                <div class="nc-img">
+                                    <img src="${imgUrl}" alt="${item.titulo}" onerror="this.src='https://placehold.co/400?text=Sin+Imagen'">
+                                </div>
                                 <div class="nc-content">
                                     <span class="nc-date">${item.fecha}</span>
                                     <h3>${item.titulo}</h3>
@@ -172,23 +275,35 @@
                                 </div>
                             </article>
                         `;
+                        container.innerHTML += cardHTML;
                     });
-                    setTimeout(() => { document.querySelectorAll('.reveal').forEach(r => r.classList.add('active')); }, 500);
+
+                    // Activar animaciones
+                    setTimeout(() => {
+                        document.querySelectorAll('.reveal').forEach(r => r.classList.add('active'));
+                    }, 500);
+                } else {
+                    console.log("El archivo JSON existe pero no tiene noticias.");
                 }
 
             } catch (error) {
-                console.log('Sin noticias nuevas o error de lectura.');
+                console.error('Error cargando noticias:', error);
+                // No mostramos error al usuario, simplemente no se ven las extras.
             }
         }
 
+        // Ejecutar
         loadNews();
         
-        // Animaciones al cargar
-        setTimeout(() => {
+        // Animaciones iniciales
+        const revealOnScroll = () => {
+            const h = window.innerHeight;
             document.querySelectorAll('.reveal').forEach(r => {
-                if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
+                if (r.getBoundingClientRect().top < h - 100) r.classList.add('active');
             });
-        }, 100);
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
     </script>
 </body>
 </html>
