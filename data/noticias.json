@@ -1,1 +1,11 @@
-{}
+{
+  "items": [
+    {
+      "fecha": "Todos los Domingos",
+      "titulo": "¡Te esperamos todos los Domingos!",
+      "imagen": "images/uploads/aca.jpg",
+      "flyer": "images/uploads/invitacion.jpg",
+      "descripcion": "¿Tenés ganas de hacer nuevos amigos y vivir tu fe con alegría? ¡La Acción Católica de Fátima tiene las puertas abiertas para vos! Nos reunimos todos los domingos en la parroquia (Zeppelin 6752) para compartir juegos, mates, charlas profundas y momentos de oración. No importa si nunca viniste a la iglesia o si hace mucho que no venís, acá hay un lugar esperándote. \nHorarios: \n🧒 Aspirantes (6-12 años): 10:00 a 12:00 hs. \n🔥 Jóvenes (13-30 años): 10:00 a 12:00 hs.\n🤵 Adultos (+30 Años): 10:00 a 12:00 hs\n¡Solo traé tu equipo de mate y muchas ganas de compartir!"
+    }
+  ]
+}
