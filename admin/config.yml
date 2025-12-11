@@ -1,10 +1,9 @@
 backend:
   name: git-gateway
-  branch: main # ⚠️ Si tu rama en GitHub se llama 'master', cambia esto por 'master'
+  branch: main # ⚠️ CAMBIA A 'master' SOLO SI EN GITHUB DICE MASTER
 
-# Donde se guardan las imágenes que subas
+# Configuración de medios (imágenes)
 media_folder: "images/uploads"
-# Como las lee la página web (ruta pública)
 public_folder: "images/uploads"
 
 # Configuración de los contenidos
@@ -14,7 +13,7 @@ collections:
     files:
       - name: "noticias"
         label: "Gestión de Noticias"
-        file: "data/noticias.json" # ⚠️ Aquí se guardarán los datos para que noticias.html los lea
+        file: "data/noticias.json"
         fields:
           - label: "Lista de Novedades"
             name: "items"
