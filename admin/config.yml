@@ -1,0 +1,28 @@
+backend:
+  name: git-gateway
+  branch: main # ⚠️ Si tu rama en GitHub se llama 'master', cambia esto por 'master'
+
+# Donde se guardan las imágenes que subas
+media_folder: "images/uploads"
+# Como las lee la página web (ruta pública)
+public_folder: "images/uploads"
+
+# Configuración de los contenidos
+collections:
+  - name: "configuracion"
+    label: "Configuración"
+    files:
+      - name: "noticias"
+        label: "Gestión de Noticias"
+        file: "data/noticias.json" # ⚠️ Aquí se guardarán los datos para que noticias.html los lea
+        fields:
+          - label: "Lista de Novedades"
+            name: "items"
+            widget: "list"
+            summary: "{{titulo}} - {{fecha}}"
+            fields:
+              - {label: "Título", name: "titulo", widget: "string"}
+              - {label: "Fecha", name: "fecha", widget: "string", default: "Sábado 13 Dic"}
+              - {label: "Imagen de Portada", name: "imagen", widget: "image"}
+              - {label: "Flyer / Imagen Dentro (Opcional)", name: "flyer", widget: "image", required: false}
+              - {label: "Descripción", name: "descripcion", widget: "text"}

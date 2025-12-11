@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesebre Viviente | A.C.A. Fátima</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./script.js">
+
+    <style>
+        /* --- VARIABLES --- */
+        :root {
+            --color-primary: #002c5f;
+            --color-accent: #4facfe;
+            --color-text: #333;
+            --color-bg-light: #f4f7fa;
+            --color-white: #fff;
+            --shadow-card: 0 10px 30px rgba(0, 44, 95, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--color-bg-light); color: var(--color-text); }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--color-primary); }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* --- HEADER --- */
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--color-accent); z-index: 2000; transition: width 0.1s; }
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 15px 0; background: rgba(255, 255, 255, 0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--color-primary); display: flex; align-items: center; gap: 10px; }
+        .btn-back { border: 2px solid var(--color-primary); color: var(--color-primary); padding: 8px 25px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; }
+        .btn-back:hover { background: var(--color-primary); color: var(--color-white); }
+
+        /* --- HERO --- */
+        .hero {
+            height: 40vh; position: relative; display: flex;
+            align-items: center; justify-content: center; text-align: center;
+            overflow: hidden; color: var(--color-white); padding-top: 60px;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1512592882772-230eb537b03b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            z-index: -2; transform: scale(1.1);
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(0,44,95,0.9) 0%, rgba(0,44,95,0.7) 100%);
+            z-index: -1;
+        }
+        .hero-content h1 { font-size: 3rem; color: white; text-shadow: 0 4px 10px rgba(0,0,0,0.3); margin: 0;}
+        .hero-content p { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--color-accent); font-weight: 700; margin-bottom: 5px; }
+
+        .wave-bottom { position: absolute; bottom: -1px; left: 0; width: 100%; overflow: hidden; line-height: 0; transform: rotate(180deg); }
+        .wave-bottom svg { width: 100%; height: 80px; fill: var(--color-bg-light); }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+
+        /* SECCIÓN FLYER */
+        .flyer-section {
+            display: flex; gap: 50px; align-items: flex-start; margin-bottom: 80px;
+            background: white; padding: 40px; border-radius: 20px;
+            box-shadow: var(--shadow-card);
+        }
+        
+        .flyer-img-box {
+            flex: 1; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15); border: 1px solid #eee;
+        }
+        .flyer-img-box img { width: 100%; height: auto; display: block; transition: transform 0.3s; }
+        .flyer-img-box:hover img { transform: scale(1.02); }
+
+        .flyer-text { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .flyer-text h2 { font-size: 2.2rem; margin-bottom: 20px; line-height: 1.2; color: var(--color-primary); }
+        .flyer-text p { font-size: 1.1rem; color: #555; line-height: 1.6; margin-bottom: 30px; }
+        
+        .event-details {
+            background: var(--color-bg-light); padding: 25px; border-radius: 10px;
+            border-left: 4px solid var(--color-primary);
+        }
+        .detail-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .detail-item:last-child { margin-bottom: 0; }
+        .detail-item i { font-size: 1.5rem; color: var(--color-accent); width: 30px; text-align: center; }
+        .detail-item div h4 { font-size: 0.85rem; margin: 0; color: #777; text-transform: uppercase; letter-spacing: 1px; }
+        .detail-item div span { font-size: 1.1rem; font-weight: 700; color: var(--color-primary); }
+
+        /* SECCIÓN CRONOGRAMA PROFESIONAL */
+        .cronograma-section h2 { text-align: center; margin-bottom: 40px; font-size: 2rem; }
+        
+        .crono-list {
+            list-style: none; background: white; border-radius: 15px;
+            overflow: hidden; box-shadow: var(--shadow-card); border: 1px solid #eee;
+        }
+        .crono-item {
+            display: flex; gap: 20px; padding: 25px 30px; 
+            border-bottom: 1px solid #f0f0f0; transition: background 0.2s;
+        }
+        .crono-item:last-child { border-bottom: none; }
+        .crono-item:hover { background: #f9fbff; }
+
+        /* Numeración */
+        .crono-number {
+            font-size: 1.5rem; font-weight: 800; color: var(--color-accent);
+            min-width: 30px; opacity: 0.5;
+        }
+
+        .crono-content { flex: 1; }
+        .act-title { font-weight: 700; font-size: 1.1rem; color: var(--color-primary); margin-bottom: 5px; display: block; }
+        .act-desc { font-size: 0.95rem; color: #666; line-height: 1.5; margin: 0; }
+
+        .act-group-badge { 
+            background: var(--color-bg-light); color: var(--color-primary); 
+            padding: 8px 15px; border-radius: 5px; 
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            align-self: flex-start; white-space: nowrap; border: 1px solid #e0e0e0;
+        }
+
+        /* MENSAJE FINAL */
+        .final-message {
+            margin-top: 60px; background: white; padding: 40px; border-radius: 15px; 
+            border: 1px solid #eee; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .final-message h4 { margin-bottom: 15px; color: var(--color-primary); font-size: 1.3rem; }
+        .final-message p { color: #555; margin-bottom: 10px; }
+        .final-message hr { margin: 20px auto; width: 50%; border: 0; border-top: 1px solid #eee; }
+
+        /* FOOTER */
+        .wave-footer { line-height: 0; width: 100%; transform: rotate(0deg); margin-top: 50px; }
+        .wave-footer svg { width: 100%; height: 150px; fill: var(--color-primary); }
+        footer { background: var(--color-primary); color: var(--color-white); padding-bottom: 40px; }
+        .footer-content { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 50px; padding: 40px 0 60px; border-bottom: 1px solid rgba(255,255,255,0.1); max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px;}
+        .footer-col h3 { color: var(--color-white); margin-bottom: 25px; font-size: 1.5rem; }
+        .footer-col p { opacity: 0.7; line-height: 1.8; margin-bottom: 20px; }
+        .footer-col h4 { color: var(--color-accent); margin-bottom: 25px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-links a { opacity: 0.8; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .footer-links a:hover { opacity: 1; color: var(--color-accent); transform: translateX(5px); }
+        .social-vertical { display: flex; flex-direction: column; gap: 15px; }
+        .social-link { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.05); padding: 12px 20px; border-radius: 10px; transition: var(--transition); }
+        .social-link:hover { background: var(--color-accent); transform: translateY(-3px); color: var(--color-primary); font-weight: 700; }
+        .copyright { text-align: center; padding-top: 30px; font-size: 0.9rem; opacity: 0.6; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .flyer-section { flex-direction: column; padding: 25px; }
+            .crono-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .act-group-badge { align-self: flex-start; margin-top: 5px; }
+            .crono-number { display: none; } /* Ocultar numero en movil para ganar espacio */
+            .footer-content { grid-template-columns: 1fr; }
+        }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-church"></i> FÁTIMA</a>
+            <a href="./novedades.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content reveal">
+            <p>Sábado 13 de Diciembre</p>
+            <h1>Pesebre Viviente</h1>
+        </div>
+        <div class="wave-bottom">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <div class="flyer-section reveal">
+            <div class="flyer-img-box">
+                <img src="./img/flyer.jpeg" alt="Flyer Invitación Pesebre" onerror="this.src='https://placehold.co/600x800/eee/333?text=Flyer+Invitación';">
+            </div>
+            
+            <div class="flyer-text">
+                <h2>¡Vení a celebrar!</h2>
+                <p>Te invitamos a vivir el misterio de la Navidad en comunidad. Prepará el corazón para recibir al Niño Jesús junto a nosotros en una noche llena de emoción y fe frente a nuestra parroquia.</p>
+                
+                <div class="event-details">
+                    <div class="detail-item">
+                        <i class="far fa-calendar-alt"></i>
+                        <div><h4>Fecha</h4><span>Sábado 13 de Diciembre</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="far fa-clock"></i>
+                        <div><h4>Horario</h4><span>Por la tarde (20 hs)</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div><h4>Lugar</h4><span>Zeppelin 6752</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cronograma-section reveal">
+            <h2>Cronograma de Actos</h2>
+            <ul class="crono-list">
+                
+                <li class="crono-item">
+                    <span class="crono-number">01</span>
+                    <div class="crono-content">
+                        <span class="act-title">La Anunciación</span>
+                        <p class="act-desc">El Arcángel Gabriel visita a María para anunciarle que será la madre del Salvador.</p>
+                    </div>
+                    <span class="act-group-badge">2do Catequesis</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">02</span>
+                    <div class="crono-content">
+                        <span class="act-title">La Visitación</span>
+                        <p class="act-desc">María viaja para ayudar a su prima Isabel, quien también espera un hijo.</p>
+                    </div>
+                    <span class="act-group-badge">2do Catequesis</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">03</span>
+                    <div class="crono-content">
+                        <span class="act-title">María y José</span>
+                        <p class="act-desc">El censo obliga a los santos esposos a viajar desde Nazaret hacia Belén.</p>
+                    </div>
+                    <span class="act-group-badge">2do Confirmación</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">04</span>
+                    <div class="crono-content">
+                        <span class="act-title">Camino a Belén</span>
+                        <p class="act-desc">La difícil búsqueda de un lugar donde alojarse ante la negativa de los posaderos.</p>
+                    </div>
+                    <span class="act-group-badge">1er Confirmación</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">05</span>
+                    <div class="crono-content">
+                        <span class="act-title">El Nacimiento</span>
+                        <p class="act-desc">En la humildad de un pesebre, nace Jesús, luz del mundo.</p>
+                    </div>
+                    <span class="act-group-badge">ACA Jóvenes</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">06</span>
+                    <div class="crono-content">
+                        <span class="act-title">Anuncio a los Pastores</span>
+                        <p class="act-desc">Los ángeles llevan la buena noticia a los pastores que vigilaban sus rebaños.</p>
+                    </div>
+                    <span class="act-group-badge">1er Catequesis</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">07</span>
+                    <div class="crono-content">
+                        <span class="act-title">Visita de los Pastores</span>
+                        <p class="act-desc">Los humildes pastores son los primeros en adorar al Niño Dios.</p>
+                    </div>
+                    <span class="act-group-badge">1er Catequesis</span>
+                </li>
+
+                <li class="crono-item">
+                    <span class="crono-number">08</span>
+                    <div class="crono-content">
+                        <span class="act-title">Reyes Magos</span>
+                        <p class="act-desc">Guiados por una estrella, sabios de Oriente llegan con ofrendas.</p>
+                    </div>
+                    <span class="act-group-badge">ACA Jóvenes</span>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="final-message reveal">
+            <h4><i class="fas fa-info-circle"></i> Información para Coordinadores</h4>
+            <p><strong>Actos:</strong> Cada grupo tiene libertad creativa para elegir música, coreografía y vestuario.</p>
+            <p><strong>Escenografía:</strong> La construimos entre todos. Cualquier aporte de materiales es bienvenido.</p>
+            <hr>
+            <p style="font-weight: 600; color: var(--color-primary);">¿Tenés una idea para el mensaje final? ¡Acercate a los dirigentes, queremos escucharte!</p>
+        </div>
+
+    </div>
+
+    <div class="wave-footer">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path>
+        </svg>
+    </div>
+
+    <footer id="contacto">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>A.C.A. Fátima</h3>
+                <p>Una comunidad de puertas abiertas. Caminando juntos hacia la santidad, con alegría y servicio.</p>
+            </div>
+            <div class="footer-col footer-links">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                    <li><a href="#grupos"><i class="fas fa-chevron-right"></i> Grupos</a></li>
+                    <li><a href="#noticias"><i class="fas fa-chevron-right"></i> Novedades</a></li>
+                    <li><a href="./invitacion.html"><i class="fas fa-chevron-right"></i> Inscripciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h4>Encuéntranos</h4>
+                <p><i class="fas fa-map-marker-alt" style="margin-right:10px;"></i> Zeppelin 6752, Catán</p>
+                <p><i class="fas fa-phone" style="margin-right:10px;"></i> +54 9 11 3827 2256</p>
+            </div>
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div class="social-vertical">
+                    <a href="https://www.facebook.com/people/Acci%C3%B3n-Catolica-F%C3%A1tima/61579766170361/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" class="social-link"><i class="fab fa-facebook-f"></i> Facebook</a>
+                    <a href="https://www.instagram.com/acafatima_/" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="https://www.tiktok.com/@accion.catolica.fa?_t=ZM-8z4TGZezeZq&_r=1&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn53y_E-LB1R7RWzPxaSYDieuDrNzDs2bkxy8P5fT88dOZo4Xk8GKrLXjdFog_aem_QbZDykXjkBmm86_-Huen0Q" class="social-link"><i class="fab fa-tiktok"></i> TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Acción Católica Argentina - N.S. de Fátima. ¡Alabado sea Jesucristo!</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement, b = document.body, st = 'scrollTop', sh = 'scrollHeight';
+            const p = ((h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight)) * 100;
+            document.getElementById("scrollProgress").style.width = p + "%";
+            
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const h = window.innerHeight;
+            revealElements.forEach(r => {
+                if (r.getBoundingClientRect().top < h - 100) r.classList.add('active');
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+    </script>
+</body>
+</html>
