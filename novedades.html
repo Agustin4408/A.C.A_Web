@@ -125,91 +125,90 @@
     <div class="wave-footer"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path></svg></div>
     <footer><p>© 2024 Acción Católica Argentina - N.S. de Fátima</p></footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+
     <script>
-        // Efectos Visuales
+        // --- 2. CONFIGURACIÓN VISUAL (Scroll y Header) ---
         window.addEventListener('scroll', () => {
             const h = document.documentElement, b = document.body, st = 'scrollTop', sh = 'scrollHeight';
             document.getElementById("scrollProgress").style.width = ((h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight)) * 100 + "%";
             document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // ------------------------------------------------------------------
-        // SCRIPT QUE ARREGLA LA LECTURA DE DATOS (Lee {items:[]} o [{},{}])
-        // ------------------------------------------------------------------
-        async function loadNews() {
+        // --- 3. LÓGICA DE CARGA DE NOTICIAS (MODO PRO CON FOTOS) ---
+        function loadNews() {
             const container = document.getElementById('newsContainer');
             const titleSection = document.getElementById('dynamicNewsTitle');
 
-            try {
-                // 1. Buscamos el archivo JSON (con truco anti-cache)
-                const response = await fetch('data/noticias.json?v=' + new Date().getTime());
-                const data = await response.json();
-                
-                // 2. DETECTAMOS EL FORMATO AUTOMÁTICAMENTE
-                let listaNoticias = [];
+            // ⚠️ PEGA AQUÍ TUS DATOS DE CONTENTFUL ⚠️
+            const client = contentful.createClient({
+                space: 'm7mz5gqfzygp',
+                accessToken: 'RvHxybtqTiHXx3iXB-eSY4kIYbVVmLYUis_WJp_W_Iw'
+            });
 
-                if (Array.isArray(data)) {
-                    // Opción A: Es una lista directa [ {...}, {...} ]
-                    listaNoticias = data;
-                } else if (data.items && Array.isArray(data.items)) {
-                    // Opción B: Es un objeto { "items": [ ... ] } (Estilo Netlify CMS)
-                    listaNoticias = data.items;
-                }
+            // Pedimos las noticias
+            client.getEntries({ content_type: 'noticia' })
+            .then((response) => {
+                const noticias = response.items;
 
-                // 3. SI HAY NOTICIAS, LAS MOSTRAMOS
-                if (listaNoticias.length > 0) {
-                    titleSection.style.display = 'block';
-                    container.innerHTML = ''; // Limpiamos
+                if (noticias.length > 0) {
+                    if(titleSection) titleSection.style.display = 'block';
+                    container.innerHTML = ''; 
 
-                    listaNoticias.forEach(item => {
-                        // Variables con protección por si falta algo
-                        const titulo = item.titulo || "Nueva Noticia";
-                        const fecha = item.fecha || "";
-                        const desc = item.descripcion || "";
-                        const img = item.imagen || "https://placehold.co/400x300?text=A.C.A.";
+                    noticias.forEach(item => {
+                        const info = item.fields;
                         
-                        // Botón de Flyer (opcional)
-                        let btnHTML = '';
-                        if (item.flyer) {
-                            btnHTML = `
-                                <div class="nc-actions">
-                                    <a href="${item.flyer}" target="_blank" class="btn-flyer">
-                                        <i class="fas fa-image"></i> Ver Flyer / Info Completa
+                        // TÍTULO Y FECHA
+                        const titulo = info.titulo || "Sin título";
+                        const fecha = info.fecha || "";
+                        const desc = info.descripcion || "";
+
+                        // FOTO (Lógica Inteligente)
+                        let imgUrl = "https://placehold.co/400x300?text=A.C.A.";
+                        
+                        // Verificamos si subiste una foto real
+                        if (info.imagen && info.imagen.fields && info.imagen.fields.file) {
+                            imgUrl = info.imagen.fields.file.url;
+                            // Contentful a veces devuelve la url sin 'https:', se lo agregamos
+                            if (imgUrl.startsWith('//')) imgUrl = 'https:' + imgUrl;
+                        }
+
+                        // FLYER (Opcional)
+                        let flyerBtn = '';
+                        if (info.flyer) {
+                            flyerBtn = `
+                                <div class="nc-actions" style="margin-top:auto; padding-top:15px;">
+                                    <a href="${info.flyer}" target="_blank" class="btn-flyer" style="display:block; width:100%; text-align:center; border:1px solid var(--color-primary); padding:8px; border-radius:5px; color:var(--color-primary); font-weight:700;">
+                                        <i class="fas fa-image"></i> Ver Flyer
                                     </a>
                                 </div>`;
                         }
 
-                        // Crear HTML
-                        const html = `
+                        // ARMAMOS LA TARJETA
+                        container.innerHTML += `
                             <article class="news-card reveal active">
                                 <div class="nc-img">
-                                    <img src="${img}" alt="${titulo}" onerror="this.src='https://placehold.co/400?text=Error+Imagen'">
+                                    <img src="${imgUrl}" alt="${titulo}">
                                 </div>
                                 <div class="nc-content">
                                     <span class="nc-date">${fecha}</span>
                                     <h3>${titulo}</h3>
                                     <p>${desc}</p>
-                                    ${btnHTML}
+                                    ${flyerBtn}
                                 </div>
                             </article>
                         `;
-                        container.innerHTML += html;
                     });
 
-                    // Activar animaciones
-                    setTimeout(() => {
-                        document.querySelectorAll('.reveal').forEach(r => r.classList.add('active'));
-                    }, 500);
-                } else {
-                    console.log("El archivo JSON se leyó bien, pero la lista está vacía.");
+                    // Animaciones
+                    setTimeout(() => { document.querySelectorAll('.reveal').forEach(r => r.classList.add('active')); }, 500);
                 }
-
-            } catch (error) {
-                console.error("Error leyendo noticias:", error);
-            }
+            })
+            .catch((error) => {
+                console.error("Error cargando noticias:", error);
+            });
         }
 
-        // Ejecutar al cargar
         loadNews();
     </script>
 </body>
