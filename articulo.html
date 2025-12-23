@@ -126,54 +126,49 @@
     <footer><p>© 2024 Acción Católica Argentina - N.S. de Fátima</p></footer>
 
     <script>
-        // ==========================================
-        //  ⚠️ PEGA TUS CLAVES AQUÍ TAMBIÉN ⚠️
-        //  (Deben ser las mismas de noticias.html)
-        // ==========================================
-        const SPACE_ID = 'm7mz5gqfzygp';       
-        const ACCESS_TOKEN = 'RvHxybtqTiHXx3iXB-eSY4kIYbVVmLYUis_WJp_W_Iw'; 
-        // ==========================================
+        async function cargarArticulo() {
+            const params = new URLSearchParams(window.location.search);
+            const idBuscado = params.get('id'); // Ej: pesebre-viviente
+            
+            if(!idBuscado) {
+                window.location.href = 'noticias.html';
+                return;
+            }
 
-        const client = contentful.createClient({ space: SPACE_ID, accessToken: ACCESS_TOKEN });
-        
-        // 1. Leemos la URL para saber qué noticia mostrar (ej: ?id=pesebre)
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get('id');
+            try {
+                // 1. Leemos el archivo
+                const response = await fetch('noticias.json');
+                const noticias = await response.json();
 
-        if(slug) {
-            // 2. Buscamos esa noticia exacta en Contentful
-            client.getEntries({ content_type: 'noticia', 'fields.slug': slug })
-            .then((response) => {
-                if (response.items.length > 0) {
-                    const info = response.items[0].fields;
+                // 2. Buscamos la noticia correcta
+                const noticia = noticias.find(n => n.id === idBuscado);
+
+                if (noticia) {
+                    // 3. Rellenamos la página
+                    document.title = noticia.titulo + " | A.C.A.";
+                    document.getElementById('artTitle').innerText = noticia.titulo;
+                    document.getElementById('artDate').innerText = noticia.fecha;
+                    document.getElementById('artBody').innerText = noticia.cuerpo;
                     
-                    // 3. Rellenamos la página con los datos
-                    document.title = info.titulo + " | A.C.A.";
-                    document.getElementById('artTitle').innerText = info.titulo;
-                    document.getElementById('artDate').innerText = info.fecha || "Reciente";
-                    
-                    // Aquí usamos el campo "cuerpo" (texto largo)
-                    // Si no existe, usa "descripcion" como respaldo
-                    document.getElementById('artBody').innerText = info.cuerpo || info.descripcion;
-                    
-                    if(info.imagen?.fields?.file?.url) {
-                        document.getElementById('artImg').src = 'https:' + info.imagen.fields.file.url;
+                    if(noticia.imagen) {
+                        document.getElementById('artImg').src = noticia.imagen;
                     } else {
-                         document.getElementById('artImg').style.display = 'none'; // Si no hay foto, oculta el cuadro
+                        document.getElementById('artImg').style.display = 'none';
                     }
 
-                    // 4. Mostramos el artículo y ocultamos el cargador
                     document.getElementById('loading').classList.add('hidden');
                     document.getElementById('mainArticle').classList.remove('hidden');
                 } else {
-                    document.getElementById('loading').innerHTML = "<h3>Noticia no encontrada 😔</h3><br><a href='noticias.html'>Volver al menú</a>";
+                    document.getElementById('loading').innerHTML = "Noticia no encontrada.<br><a href='noticias.html'>Volver</a>";
                 }
-            })
-            .catch(console.error);
-        } else {
-            // Si entraron sin ID, los mandamos de vuelta a la lista
-            window.location.href = 'noticias.html';
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading').innerText = "Error cargando la noticia.";
+            }
         }
+
+        cargarArticulo();
     </script>
 </body>
 </html>

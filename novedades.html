@@ -74,43 +74,53 @@
     <footer><p>© 2025 Acción Católica Argentina - N.S. de Fátima</p></footer>
 
     <script>
-        // ==========================================
-        //  ⚠️ PEGA TUS CLAVES AQUÍ TAMBIÉN ⚠️
-        // ==========================================
-        const SPACE_ID = 'm7mz5gqfzygp';       
-        const ACCESS_TOKEN = 'RvHxybtqTiHXx3iXB-eSY4kIYbVVmLYUis_WJp_W_Iw'; 
-        // ==========================================
+        // CARGAR NOTICIAS DESDE BASE DE DATOS LOCAL (JSON)
+        async function cargarNoticias() {
+            const container = document.getElementById('newsContainer');
+            
+            try {
+                // 1. Leemos el archivo local
+                const response = await fetch('noticias.json');
+                const noticias = await response.json();
 
-        const client = contentful.createClient({ space: SPACE_ID, accessToken: ACCESS_TOKEN });
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get('id');
+                container.innerHTML = ''; // Limpiamos "Cargando..."
 
-        if(slug) {
-            client.getEntries({ content_type: 'noticia', 'fields.slug': slug })
-            .then((response) => {
-                if (response.items.length > 0) {
-                    const info = response.items[0].fields;
-                    
-                    document.title = info.titulo;
-                    document.getElementById('artTitle').innerText = info.titulo;
-                    document.getElementById('artDate').innerText = info.fecha || "Reciente";
-                    // Si tienes campo "cuerpo", usa ese. Si no, usa "descripcion".
-                    document.getElementById('artBody').innerText = info.cuerpo || info.descripcion;
-                    
-                    if(info.imagen?.fields?.file?.url) {
-                        document.getElementById('artImg').src = 'https:' + info.imagen.fields.file.url;
-                    }
+                if (noticias.length > 0) {
+                    // Mostrar título si estaba oculto
+                    const title = document.getElementById('dynamicTitle');
+                    if(title) title.style.display = 'block';
 
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('mainArticle').classList.remove('hidden');
+                    noticias.forEach(item => {
+                        // Link al artículo usando el ID
+                        const link = `articulo.html?id=${item.id}`;
+                        const img = item.imagen || 'https://placehold.co/600x400?text=ACA';
+
+                        container.innerHTML += `
+                            <article class="news-card">
+                                <div class="nc-img">
+                                    <img src="${img}" alt="${item.titulo}">
+                                </div>
+                                <div class="nc-content">
+                                    <span class="nc-date">${item.fecha}</span>
+                                    <h3>${item.titulo}</h3>
+                                    <p>${item.descripcion}</p>
+                                    <a href="${link}" class="btn-action">Leer Noticia <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </article>
+                        `;
+                    });
                 } else {
-                    document.getElementById('loading').innerHTML = "Noticia no encontrada.<br><a href='noticias.html'>Volver</a>";
+                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No hay noticias cargadas.</p>';
                 }
-            })
-            .catch(console.error);
-        } else {
-            window.location.href = 'noticias.html';
+
+            } catch (error) {
+                console.error("Error:", error);
+                container.innerHTML = '<p style="text-align:center; color:red;">Hubo un problema leyendo noticias.json</p>';
+            }
         }
+
+        // Ejecutar al iniciar
+        cargarNoticias();
     </script>
 </body>
 </html>
