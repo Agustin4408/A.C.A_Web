@@ -1,18 +1,18 @@
 [
-    {
-        "id": "pesebre-viviente",
-        "titulo": "Gran Pesebre Viviente Comunitario",
-        "fecha": "Sábado 28 Dic | 20:30 hs",
-        "descripcion": "Llega la noche más especial del año. Toda nuestra comunidad se une para revivir el nacimiento de Jesús. ¡Te esperamos en familia!",
-        "cuerpo": "¡Una noche para encender la esperanza!\n\nComo cada año, los grupos de la Acción Católica han preparado con mucho amor el tradicional Pesebre Viviente. No es solo una obra de teatro, es una oración comunitaria.\n\n📍 Lugar: Atrio de la Parroquia N.S. de Fátima.\n⏰ Horario: 20:30 hs.\n🪑 Recomendación: ¡Traé tu reposera y el mate!\n\nAl finalizar, compartiremos un brindis comunitario.",
-        "imagen": "./img/pesebre.jpg"
-    },
-    {
-        "id": "inscripciones-2025",
-        "titulo": "Abiertas las Inscripciones 2025",
-        "fecha": "Marzo 2025",
-        "descripcion": "Ya te podés anotar para comenzar las actividades el año que viene. ¡No te quedes afuera!",
-        "cuerpo": "Si tenés entre 5 y 18 años, te invitamos a formar parte de nuestros grupos. Acercate a secretaría parroquial los sábados por la tarde.",
-        "imagen": "https://images.unsplash.com/photo-1511649475669-e288648b2339?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-    }
+  {
+    "id": "pesebre-viviente",
+    "titulo": "Gran Pesebre Viviente Comunitario",
+    "fecha": "Sábado 28 Dic | 20:30 hs",
+    "descripcion": "Llega la noche más especial del año. Toda nuestra comunidad se une para revivir el nacimiento de Jesús. ¡Te esperamos en familia!",
+    "cuerpo": "¡Una noche para encender la esperanza!\n\nComo cada año, los grupos de la Acción Católica han preparado con mucho amor el tradicional Pesebre Viviente.\n\n📍 Lugar: Atrio de la Parroquia.\n⏰ Horario: 20:30 hs.\n\nAl finalizar, compartiremos un brindis comunitario.",
+    "imagen": "https://images.unsplash.com/photo-1576016770857-7977eb289c09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    "id": "inscripciones-2025",
+    "titulo": "Abiertas las Inscripciones 2025",
+    "fecha": "Marzo 2025",
+    "descripcion": "Ya te podés anotar para comenzar las actividades el año que viene.",
+    "cuerpo": "Si tenés entre 5 y 18 años, te invitamos a formar parte de nuestros grupos. Acercate a secretaría parroquial los sábados por la tarde.",
+    "imagen": "https://images.unsplash.com/photo-1511649475669-e288648b2339?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  }
 ]
