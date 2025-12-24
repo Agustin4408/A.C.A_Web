@@ -73,53 +73,57 @@
     <div class="wave-footer"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path></svg></div>
     <footer><p>© 2025 Acción Católica Argentina - N.S. de Fátima</p></footer>
 
-    <script>
-        // CARGAR NOTICIAS DESDE BASE DE DATOS LOCAL (JSON)
+<script>
         async function cargarNoticias() {
             const container = document.getElementById('newsContainer');
             
             try {
-                // 1. Leemos el archivo local
+                // Intento leer el archivo
                 const response = await fetch('noticias.json');
+                
+                // Si el archivo no existe (Error 404)
+                if (!response.ok) {
+                    throw new Error(`No encuentro el archivo (Error ${response.status}). Verifica el nombre 'noticias.json'`);
+                }
+
                 const noticias = await response.json();
 
-                container.innerHTML = ''; // Limpiamos "Cargando..."
+                // Si llegamos aquí, ¡todo funcionó!
+                container.innerHTML = ''; 
 
                 if (noticias.length > 0) {
-                    // Mostrar título si estaba oculto
-                    const title = document.getElementById('dynamicTitle');
-                    if(title) title.style.display = 'block';
-
+                    document.getElementById('dynamicTitle').style.display = 'block';
                     noticias.forEach(item => {
-                        // Link al artículo usando el ID
                         const link = `articulo.html?id=${item.id}`;
-                        const img = item.imagen || 'https://placehold.co/600x400?text=ACA';
-
+                        const img = item.imagen || 'https://placehold.co/600x400';
+                        
                         container.innerHTML += `
                             <article class="news-card">
-                                <div class="nc-img">
-                                    <img src="${img}" alt="${item.titulo}">
-                                </div>
+                                <div class="nc-img"><img src="${img}" alt="${item.titulo}"></div>
                                 <div class="nc-content">
                                     <span class="nc-date">${item.fecha}</span>
                                     <h3>${item.titulo}</h3>
                                     <p>${item.descripcion}</p>
-                                    <a href="${link}" class="btn-action">Leer Noticia <i class="fas fa-arrow-right"></i></a>
+                                    <a href="${link}" class="btn-action">Leer Noticia</a>
                                 </div>
                             </article>
                         `;
                     });
                 } else {
-                    container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No hay noticias cargadas.</p>';
+                    container.innerHTML = '<h3>El archivo noticias.json está vacío ([]).</h3>';
                 }
 
             } catch (error) {
-                console.error("Error:", error);
-                container.innerHTML = '<p style="text-align:center; color:red;">Hubo un problema leyendo noticias.json</p>';
+                // MUESTRA EL ERROR EN PANTALLA ROJA
+                container.innerHTML = `
+                    <div style="background:#ffcccc; color:#cc0000; padding:20px; border-radius:10px; text-align:center;">
+                        <h3>⚠️ Ocurrió un error</h3>
+                        <p>${error.message}</p>
+                        <small>Si dice "SyntaxError", revisa las comas en tu JSON.</small>
+                    </div>
+                `;
             }
         }
-
-        // Ejecutar al iniciar
         cargarNoticias();
     </script>
 </body>
