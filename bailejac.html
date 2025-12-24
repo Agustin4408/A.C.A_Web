@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baile de la JAC | Cierre 2025</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES DE MARCA --- */
+        :root {
+            --color-primary: #002c5f;    
+            --color-accent: #4facfe;     
+            --color-text: #333;
+            --color-bg-light: #f4f7fa;
+            --color-white: #ffffff;
+            --shadow-soft: 0 10px 40px rgba(0, 44, 95, 0.08);
+            --shadow-hover: 0 20px 50px rgba(0, 44, 95, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: var(--color-bg-light); 
+            color: var(--color-text); 
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--color-primary); }
+        
+        /* HEADER (Estándar) */
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 15px 0; background: rgba(255, 255, 255, 0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--color-primary); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .btn-back { border: 2px solid var(--color-primary); color: var(--color-primary); padding: 8px 25px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: 0.3s; }
+        .btn-back:hover { background: var(--color-primary); color: var(--color-white); }
+
+        /* --- 1. HERO CON PARALLAX --- */
+        .hero {
+            position: relative; height: 75vh; min-height: 500px;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            background-attachment: fixed; /* Efecto Parallax */
+            background-image: url('./img/bailejac.jpeg');
+            background-size: cover; background-position: center;
+            margin-top: 60px;
+        }
+        
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0, 44, 95, 0.95), rgba(0, 44, 95, 0.7));
+        }
+
+        .hero-content { position: relative; z-index: 2; padding: 20px; max-width: 900px; animation: fadeInUp 1s ease; }
+        
+        .hero-pre { 
+            text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; color: var(--color-accent); font-weight: 700; margin-bottom: 15px; display: block;
+        }
+        .hero h1 { 
+            font-size: 4rem; margin-bottom: 20px; color: white; font-weight: 800; line-height: 1.1; 
+            text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .hero p { font-size: 1.3rem; color: rgba(255,255,255,0.9); font-weight: 300; max-width: 600px; margin: 0 auto; }
+
+        /* --- 2. BARRA FLOTANTE DE DATOS --- */
+        .info-bar-wrapper {
+            max-width: 1000px; margin: -60px auto 80px; padding: 0 20px; position: relative; z-index: 10;
+        }
+        .info-bar {
+            background: white; border-radius: 15px; box-shadow: var(--shadow-soft);
+            display: flex; flex-wrap: wrap; padding: 10px;
+            animation: fadeInUp 1.2s ease;
+        }
+        .ib-item {
+            flex: 1; padding: 25px; display: flex; align-items: center; gap: 15px;
+            border-right: 1px solid #eee; min-width: 200px; justify-content: center;
+        }
+        .ib-item:last-child { border-right: none; }
+        
+        .ib-icon { 
+            width: 50px; height: 50px; background: #f0f7ff; color: var(--color-accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .ib-text h4 { font-size: 0.75rem; text-transform: uppercase; color: #888; margin-bottom: 4px; letter-spacing: 1px; }
+        .ib-text span { font-size: 1.1rem; font-weight: 700; color: var(--color-primary); }
+
+
+        /* --- 3. SECCIÓN MIXTA (IMAGEN + TEXTO) --- */
+        .section-split {
+            max-width: 1100px; margin: 0 auto 100px; padding: 0 20px;
+            display: flex; align-items: center; gap: 60px;
+        }
+        .split-content { flex: 1; }
+        .split-image { flex: 1; position: relative; }
+        
+        .split-image img { 
+            width: 100%; border-radius: 20px; box-shadow: var(--shadow-hover);
+            transform: rotate(2deg); transition: 0.5s;
+        }
+        .split-image:hover img { transform: rotate(0deg) scale(1.02); }
+
+        .section-title { font-size: 2.5rem; margin-bottom: 25px; line-height: 1.2; }
+        .section-text { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
+        
+        .feature-list { list-style: none; margin-top: 30px; }
+        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--color-primary); }
+        .feature-list i { color: var(--color-accent); }
+
+        /* --- 4. TEMÁTICA --- */
+        .theme-box {
+            background: white; border-radius: 20px; padding: 60px; margin: 0 20px 100px;
+            text-align: center; box-shadow: var(--shadow-soft);
+            max-width: 900px; margin-left: auto; margin-right: auto;
+            position: relative; overflow: hidden; border-top: 5px solid var(--color-accent);
+        }
+        
+        .theme-title { font-size: 2rem; margin-bottom: 20px; }
+        .theme-desc { max-width: 700px; margin: 0 auto 40px; color: #666; font-size: 1.1rem; line-height: 1.6; }
+        
+        .grid-visual { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .gv-item { 
+            background: var(--color-bg-light); padding: 20px 40px; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; width: 180px;
+            transition: 0.3s;
+        }
+        .gv-item:hover { transform: translateY(-5px); background: #e6f0fa; }
+        .gv-icon { font-size: 2.5rem; color: var(--color-primary); }
+        .gv-label { font-weight: 700; font-size: 1.2rem; color: var(--color-text); }
+
+
+        /* --- 5. TARJETA DE ACCESO (PRECIO MEJORADO) --- */
+        .access-section {
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, var(--color-bg-light) 0%, white 100%);
+            text-align: center;
+        }
+
+        .access-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 44, 95, 0.15); /* Sombra elegante */
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+        
+        .access-card:hover { transform: translateY(-5px); box-shadow: 0 30px 70px rgba(0, 44, 95, 0.2); }
+
+        /* Lado Izquierdo (Visual) */
+        .ac-visual {
+            width: 35%;
+            background: linear-gradient(135deg, var(--color-primary), #004e92);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; padding: 30px;
+            position: relative;
+        }
+        /* Círculos decorativos para parecer ticket */
+        .ac-visual::after {
+            content: ''; position: absolute; right: -15px; top: 50%; transform: translateY(-50%);
+            width: 30px; height: 30px; background: white; border-radius: 50%;
+        }
+
+        .ac-icon { font-size: 3rem; margin-bottom: 10px; opacity: 0.9; }
+        .ac-label { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; }
+
+        /* Lado Derecho (Info) */
+        .ac-details {
+            width: 65%; padding: 40px; text-align: left;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        
+        .ac-price-label { color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .ac-price { 
+            font-family: 'Montserrat', sans-serif; font-size: 3.5rem; font-weight: 800; 
+            color: var(--color-primary); margin-bottom: 20px; line-height: 1;
+        }
+        
+        .ac-features { list-style: none; margin-bottom: 0; }
+        .ac-features li { 
+            margin-bottom: 10px; color: #555; font-size: 1rem; 
+            display: flex; align-items: center; gap: 10px; 
+        }
+        .ac-features i { color: var(--color-accent); font-size: 1.1rem; }
+        
+        .ac-footer { margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.9rem; color: #888; font-style: italic; }
+
+        /* ANIMACIONES */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FOOTER */
+        .wave-footer { line-height: 0; width: 100%; margin-top: auto; }
+        .wave-footer svg { width: 100%; height: 150px; fill: var(--color-primary); }
+        footer { background: var(--color-primary); color: white; padding-bottom: 40px; text-align: center; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .info-bar { flex-direction: column; }
+            .ib-item { border-right: none; border-bottom: 1px solid #eee; justify-content: flex-start; }
+            .section-split { flex-direction: column; }
+            .split-image img { transform: rotate(0deg); }
+            
+            /* Ajuste Tarjeta Precio Móvil */
+            .access-card { flex-direction: column; }
+            .ac-visual { width: 100%; padding: 20px; flex-direction: row; gap: 15px; justify-content: center; }
+            .ac-visual::after { display: none; } /* Ocultar el círculo en móvil */
+            .ac-details { width: 100%; padding: 30px; text-align: center; }
+            .ac-features { text-align: left; display: inline-block; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-church"></i> FÁTIMA</a>
+            <a href="noticias.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-pre">Festejo de San Juan Evangelista</span>
+            <h1>EL BAILE DE LA JAC</h1>
+            <p>Una noche para agradecer, celebrar y compartir la alegría de ser jóvenes.</p>
+        </div>
+    </div>
+
+    <div class="info-bar-wrapper">
+        <div class="info-bar">
+            <div class="ib-item">
+                <div class="ib-icon"><i class="far fa-calendar-alt"></i></div>
+                <div class="ib-text"><h4>Fecha</h4><span>Viernes 26 Dic</span></div>
+            </div>
+            <div class="ib-item">
+                <div class="ib-icon"><i class="far fa-clock"></i></div>
+                <div class="ib-text"><h4>Horario</h4><span>21:30 hs</span></div>
+            </div>
+            <div class="ib-item">
+                <div class="ib-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="ib-text"><h4>Lugar</h4><span>P. Santa Teresita</span></div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section-split">
+        <div class="split-content">
+            <h2 class="section-title">Cerrando un año lleno de vida</h2>
+            <p class="section-text">
+                Como comunidad juvenil, nos reunimos para honrar a nuestro patrono y dar gracias a Dios por todo el 2025. Más que una fiesta, es un encuentro de amigos unidos por la fe.
+            </p>
+            <p class="section-text">
+                Te esperamos para compartir anécdotas del año, música, baile y un momento especial.
+            </p>
+            
+            <ul class="feature-list">
+                <li><i class="fas fa-music"></i> Buena Música y DJ</li>
+                <li><i class="fas fa-heart"></i> El mejor ambiente juvenil</li>
+            </ul>
+        </div>
+        <div class="split-image">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Jóvenes Festejando">
+        </div>
+    </section>
+
+    <div class="theme-box">
+        <h2 class="theme-title">Dress Code: 90's & 2000's</h2>
+        <div class="theme-desc">
+            Este año viajamos en el tiempo. La consigna es venir disfrazado con el estilo de estas dos décadas icónicas. No es una competencia, es un <strong>MIX</strong>. ¡Ponete creativo!
+        </div>
+        
+        <div class="grid-visual">
+            <div class="gv-item">
+                <i class="fas fa-compact-disc gv-icon"></i>
+                <span class="gv-label">Estilo 90s</span>
+            </div>
+            <div class="gv-item">
+                <i class="fas fa-mobile-alt gv-icon"></i>
+                <span class="gv-label">Estilo 2000s</span>
+            </div>
+            <div class="gv-item">
+                <i class="fas fa-tshirt gv-icon"></i>
+                <span class="gv-label">Disfraces</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="access-section">
+        <div class="access-card">
+            <div class="ac-visual">
+                <i class="fas fa-ticket-alt ac-icon"></i>
+                <span class="ac-label">Acceso Total</span>
+            </div>
+            <div class="ac-details">
+                <span class="ac-price-label">Valor de la entrada</span>
+                <div class="ac-price">$ 2.000</div>
+                
+                <ul class="ac-features">
+                    <li><i class="fas fa-check-circle"></i> Ingreso a la Fiesta</li>
+                </ul>
+                
+                <div class="ac-footer">
+                    ¡No te quedes afuera de esta gran noche!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wave-footer"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path></svg></div>
+    <footer><p>© 2025 Acción Católica Argentina - N.S. de Fátima</p></footer>
+
+</body>
+</html>

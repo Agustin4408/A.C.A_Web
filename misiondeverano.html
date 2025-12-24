@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión de Verano | A.C.A. Fátima</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- VARIABLES DE MARCA --- */
+        :root {
+            --color-primary: #002c5f;    
+            --color-accent: #4facfe;     
+            --color-text: #333;
+            --color-bg-light: #f4f7fa;
+            --color-white: #ffffff;
+            --shadow-soft: 0 10px 40px rgba(0, 44, 95, 0.08);
+            --shadow-hover: 0 20px 50px rgba(0, 44, 95, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: var(--color-bg-light); 
+            color: var(--color-text); 
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; color: var(--color-primary); }
+        
+        /* HEADER */
+        header { position: fixed; width: 100%; top: 0; z-index: 1000; padding: 15px 0; background: rgba(255, 255, 255, 0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--color-primary); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .btn-back { border: 2px solid var(--color-primary); color: var(--color-primary); padding: 8px 25px; border-radius: 50px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: 0.3s; }
+        .btn-back:hover { background: var(--color-primary); color: var(--color-white); }
+
+        /* --- 1. HERO PARALLAX --- */
+        .hero {
+            position: relative; height: 75vh; min-height: 500px;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            background-attachment: fixed;
+            /* Foto sugerida: Caminata, calle, misión */
+            background-image: url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            margin-top: 60px;
+        }
+        
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0, 44, 95, 0.85), rgba(79, 172, 254, 0.6));
+        }
+
+        .hero-content { position: relative; z-index: 2; padding: 20px; max-width: 900px; animation: fadeInUp 1s ease; }
+        
+        .hero-pre { 
+            text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; color: white; font-weight: 700; margin-bottom: 15px; display: block; opacity: 0.9;
+        }
+        .hero h1 { 
+            font-size: 4rem; margin-bottom: 20px; color: white; font-weight: 800; line-height: 1.1; 
+            text-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .hero p { font-size: 1.3rem; color: white; font-weight: 400; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+
+        /* --- 2. BARRA DE INFO --- */
+        .info-bar-wrapper {
+            max-width: 1000px; margin: -60px auto 80px; padding: 0 20px; position: relative; z-index: 10;
+        }
+        .info-bar {
+            background: white; border-radius: 15px; box-shadow: var(--shadow-soft);
+            display: flex; flex-wrap: wrap; padding: 10px;
+            animation: fadeInUp 1.2s ease;
+        }
+        .ib-item {
+            flex: 1; padding: 25px; display: flex; align-items: center; gap: 15px;
+            border-right: 1px solid #eee; min-width: 200px; justify-content: center;
+        }
+        .ib-item:last-child { border-right: none; }
+        .ib-icon { 
+            width: 50px; height: 50px; background: #eef7ff; color: var(--color-accent); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .ib-text h4 { font-size: 0.75rem; text-transform: uppercase; color: #888; margin-bottom: 4px; letter-spacing: 1px; }
+        .ib-text span { font-size: 1.1rem; font-weight: 700; color: var(--color-primary); }
+
+
+        /* --- 3. CONCEPTO (Split) --- */
+        .section-split {
+            max-width: 1100px; margin: 0 auto 100px; padding: 0 20px;
+            display: flex; align-items: center; gap: 60px;
+        }
+        .split-content { flex: 1; }
+        .split-image { flex: 1; position: relative; }
+        
+        .split-image img { 
+            width: 100%; border-radius: 20px; box-shadow: var(--shadow-hover);
+            transform: rotate(2deg); transition: 0.5s;
+        }
+        .split-image:hover img { transform: rotate(0deg) scale(1.02); }
+
+        .section-title { font-size: 2.5rem; margin-bottom: 25px; line-height: 1.2; }
+        .section-text { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
+        
+        .feature-list { list-style: none; margin-top: 30px; }
+        .feature-list li { margin-bottom: 15px; display: flex; align-items: center; gap: 15px; font-weight: 600; color: var(--color-primary); }
+        .feature-list i { color: var(--color-accent); }
+
+        /* --- 4. ZONAS DE MISIÓN (Tarjetas) --- */
+        .zones-section {
+            background: white; padding: 80px 20px; margin-bottom: 80px; text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        }
+        .zones-container { max-width: 1000px; margin: 0 auto; }
+        
+        .zones-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px; margin-top: 50px;
+        }
+        
+        .zone-card {
+            background: var(--color-bg-light); border-radius: 15px; overflow: hidden;
+            transition: 0.3s; text-align: left;
+        }
+        .zone-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-soft); }
+        
+        .zc-header { background: var(--color-primary); color: white; padding: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .zc-body { padding: 30px; }
+        .zc-body p { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 0; }
+
+        /* --- 5. LOGÍSTICA --- */
+        .logistics-box {
+            max-width: 800px; margin: 0 auto 100px; padding: 0 20px; text-align: center;
+        }
+        .log-item { display: inline-flex; align-items: center; gap: 15px; background: white; padding: 15px 30px; border-radius: 50px; box-shadow: var(--shadow-soft); margin: 10px; }
+        .log-item i { color: var(--color-accent); font-size: 1.2rem; }
+        .log-item span { font-weight: 700; color: var(--color-primary); }
+
+
+        /* --- 6. TARJETA DE INSCRIPCIÓN --- */
+        .reg-section { padding: 20px 20px 100px; text-align: center; }
+
+        .reg-card {
+            background: white; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 44, 95, 0.15);
+            max-width: 700px; margin: 0 auto;
+            display: flex; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05); transition: 0.3s;
+        }
+        .reg-card:hover { transform: translateY(-5px); box-shadow: 0 30px 70px rgba(0, 44, 95, 0.2); }
+
+        /* Lado Visual */
+        .rc-visual {
+            width: 35%;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; padding: 30px; position: relative;
+        }
+        .rc-visual::after {
+            content: ''; position: absolute; right: -15px; top: 50%; transform: translateY(-50%);
+            width: 30px; height: 30px; background: var(--color-bg-light); border-radius: 50%;
+        }
+
+        .rc-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.9; }
+        .rc-label { font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; text-align: center; }
+
+        /* Lado Detalles */
+        .rc-details {
+            width: 65%; padding: 40px; text-align: left;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        
+        .rc-title { 
+            font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 800; 
+            color: var(--color-primary); margin-bottom: 10px; line-height: 1.2;
+        }
+        
+        .rc-info { color: #666; margin-bottom: 25px; font-size: 1rem; }
+        
+        .btn-reg {
+            background: var(--color-primary); color: white; text-align: center;
+            padding: 12px 20px; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-reg:hover { background: var(--color-accent); }
+
+        /* ANIMACIONES */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* FOOTER */
+        .wave-footer { line-height: 0; width: 100%; margin-top: auto; }
+        .wave-footer svg { width: 100%; height: 150px; fill: var(--color-primary); }
+        footer { background: var(--color-primary); color: white; padding-bottom: 40px; text-align: center; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .info-bar { flex-direction: column; }
+            .ib-item { border-right: none; border-bottom: 1px solid #eee; justify-content: flex-start; }
+            .section-split { flex-direction: column; }
+            .split-image img { transform: rotate(0deg); }
+            
+            .reg-card { flex-direction: column; }
+            .rc-visual { width: 100%; padding: 20px; flex-direction: row; gap: 15px; justify-content: center; }
+            .rc-visual::after { display: none; }
+            .rc-details { width: 100%; padding: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo"><i class="fas fa-church"></i> FÁTIMA</a>
+            <a href="noticias.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-pre">2 al 6 de Enero</span>
+            <h1>MISIÓN JOVEN</h1>
+            <p>Animate a llevar a Jesús y contagiar la alegría de seguirlo.</p>
+        </div>
+    </div>
+
+    <div class="info-bar-wrapper">
+        <div class="info-bar">
+            <div class="ib-item">
+                <div class="ib-icon"><i class="far fa-calendar-check"></i></div>
+                <div class="ib-text"><h4>Fecha</h4><span>2 al 6 Ene</span></div>
+            </div>
+            <div class="ib-item">
+                <div class="ib-icon"><i class="fas fa-map-marked-alt"></i></div>
+                <div class="ib-text"><h4>Zonas</h4><span>Laferrere</span></div>
+            </div>
+            <div class="ib-item">
+                <div class="ib-icon"><i class="fas fa-user-friends"></i></div>
+                <div class="ib-text"><h4>Edad</h4><span>18 a 30 años</span></div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section-split">
+        <div class="split-content">
+            <h2 class="section-title">Salida al encuentro</h2>
+            <p class="section-text">
+                Comenzamos el año de la mejor manera: <strong>¡Misionando!</strong> Te invitamos a vivir unos días de servicio, oración y encuentro con los hermanos. 
+            </p>
+            <p class="section-text">
+                Vamos a recorrer los barrios y lugares públicos para compartir el mensaje de esperanza. No hace falta experiencia previa, solo un corazón dispuesto a amar.
+            </p>
+            
+            <ul class="feature-list">
+                <li><i class="fas fa-heart"></i> Servicio y Caridad</li>
+                <li><i class="fas fa-bullhorn"></i> Anuncio del Evangelio</li>
+                <li><i class="fas fa-home"></i> Vida Comunitaria</li>
+            </ul>
+        </div>
+        <div class="split-image">
+            <img src="./img/misiondeverano (2).jpeg" alt="Misión Joven">
+        </div>
+    </section>
+
+    <div class="zones-section">
+        <div class="zones-container">
+            <h2 class="section-title">¿Dónde vamos a estar?</h2>
+            <p style="color:#666; max-width:600px; margin:0 auto;">Llevaremos la misión a distintos puntos, desde el encuentro personal en las casas hasta la presencia pública en las calles.</p>
+            
+            <div class="zones-grid">
+                <div class="zone-card">
+                    <div class="zc-header"><i class="fas fa-church"></i> Capillas Barriales</div>
+                    <div class="zc-body">
+                        <p>Visitaremos las familias de los barrios pertenecientes a las Capillas <strong>San Pedro</strong> y <strong>Buen Consejo</strong>.</p>
+                    </div>
+                </div>
+                <div class="zone-card">
+                    <div class="zc-header"><i class="fas fa-subway"></i> Misión Callejera</div>
+                    <div class="zc-body">
+                        <p>Estaremos presentes en la zona de la feria frente a la <strong>Estación Eva Duarte</strong>, llevando luz a los transeúntes.</p>
+                    </div>
+                </div>
+                <div class="zone-card">
+                    <div class="zc-header"><i class="fas fa-walking"></i> Peatonal</div>
+                    <div class="zc-body">
+                        <p>Recorreremos la <strong>Peatonal de Laferrere</strong>, generando espacios de escucha y oración al paso.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logistics-box">
+        <h3 style="margin-bottom:20px;">Alojamiento</h3>
+        <p style="color:#666; margin-bottom:30px;">Compartiremos la vida y el descanso en comunidad.</p>
+        
+        <div class="log-item">
+            <i class="fas fa-home"></i>
+            <span>Casa Diocesana San José</span>
+        </div>
+        <div class="log-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Comodoro Py 3484</span>
+        </div>
+    </div>
+
+    <div class="reg-section">
+        <div class="reg-card">
+            <div class="rc-visual">
+                <i class="fas fa-hands-helping rc-icon"></i>
+                <span class="rc-label">Voluntariado</span>
+            </div>
+            <div class="rc-details">
+                <h3 class="rc-title">Sumate a la Misión</h3>
+                <p class="rc-info">
+                    Si tenés entre 18 y 30 años, no dudes en inscribirte. Jesús te necesita para llegar a los demás.
+                </p>
+                
+                <a href="https://forms.gle/hzQVL34363yoJejLA" target="_blank" class="btn-reg">
+                    Completar Inscripción <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="wave-footer"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path></svg></div>
+    <footer><p>© 2025 Acción Católica Argentina - N.S. de Fátima</p></footer>
+
+</body>
+</html>
