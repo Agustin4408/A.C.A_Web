@@ -74,57 +74,64 @@
     <footer><p>© 2025 Acción Católica Argentina - N.S. de Fátima</p></footer>
 
 <script>
-        async function cargarNoticias() {
+        // --- 1. AQUÍ ESTÁN TUS NOTICIAS (Tu Base de Datos) ---
+        // Cuando quieras agregar una, copias un bloque { ... }, y lo pegas.
+        const baseDeDatos = [
+            {
+                id: "pesebre-viviente",
+                titulo: "Gran Pesebre Viviente Comunitario",
+                fecha: "Sábado 28 Dic | 20:30 hs",
+                descripcion: "Llega la noche más especial del año. Toda nuestra comunidad se une para revivir el nacimiento de Jesús. ¡Te esperamos en familia!",
+                cuerpo: "¡Una noche para encender la esperanza!\n\nComo cada año, los grupos de la Acción Católica han preparado con mucho amor el tradicional Pesebre Viviente.\n\n📍 Lugar: Atrio de la Parroquia.\n⏰ Horario: 20:30 hs.\n🪑 Recomendación: ¡Traé tu reposera!\n\nAl finalizar, compartiremos un brindis.",
+                imagen: "https://images.unsplash.com/photo-1576016770857-7977eb289c09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+            },
+            {
+                id: "inscripciones-2025",
+                titulo: "Abiertas las Inscripciones 2025",
+                fecha: "Marzo 2025",
+                descripcion: "Ya te podés anotar para comenzar las actividades el año que viene. ¡No te quedes afuera!",
+                cuerpo: "Si tenés entre 5 y 18 años, te invitamos a formar parte de nuestros grupos. Acercate a secretaría parroquial los sábados por la tarde para más información.",
+                imagen: "https://images.unsplash.com/photo-1511649475669-e288648b2339?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // --- 2. EL MOTOR QUE DIBUJA LA PÁGINA ---
+        function mostrarNoticias() {
             const container = document.getElementById('newsContainer');
+            container.innerHTML = ''; // Limpiamos el "Cargando..."
             
-            try {
-                // Intento leer el archivo
-                const response = await fetch('noticias.json');
-                
-                // Si el archivo no existe (Error 404)
-                if (!response.ok) {
-                    throw new Error(`No encuentro el archivo (Error ${response.status}). Verifica el nombre 'noticias.json'`);
-                }
+            // Si hay noticias...
+            if (baseDeDatos.length > 0) {
+                // Mostramos el título "Más Novedades"
+                const tituloSeccion = document.getElementById('dynamicTitle');
+                if(tituloSeccion) tituloSeccion.style.display = 'block';
 
-                const noticias = await response.json();
-
-                // Si llegamos aquí, ¡todo funcionó!
-                container.innerHTML = ''; 
-
-                if (noticias.length > 0) {
-                    document.getElementById('dynamicTitle').style.display = 'block';
-                    noticias.forEach(item => {
-                        const link = `articulo.html?id=${item.id}`;
-                        const img = item.imagen || 'https://placehold.co/600x400';
-                        
-                        container.innerHTML += `
-                            <article class="news-card">
-                                <div class="nc-img"><img src="${img}" alt="${item.titulo}"></div>
-                                <div class="nc-content">
-                                    <span class="nc-date">${item.fecha}</span>
-                                    <h3>${item.titulo}</h3>
-                                    <p>${item.descripcion}</p>
-                                    <a href="${link}" class="btn-action">Leer Noticia</a>
-                                </div>
-                            </article>
-                        `;
-                    });
-                } else {
-                    container.innerHTML = '<h3>El archivo noticias.json está vacío ([]).</h3>';
-                }
-
-            } catch (error) {
-                // MUESTRA EL ERROR EN PANTALLA ROJA
-                container.innerHTML = `
-                    <div style="background:#ffcccc; color:#cc0000; padding:20px; border-radius:10px; text-align:center;">
-                        <h3>⚠️ Ocurrió un error</h3>
-                        <p>${error.message}</p>
-                        <small>Si dice "SyntaxError", revisa las comas en tu JSON.</small>
-                    </div>
-                `;
+                // Recorremos y dibujamos
+                baseDeDatos.forEach(item => {
+                    // El link lleva a articulo.html con el ID
+                    const link = `articulo.html?id=${item.id}`;
+                    
+                    container.innerHTML += `
+                        <article class="news-card">
+                            <div class="nc-img">
+                                <img src="${item.imagen}" alt="${item.titulo}">
+                            </div>
+                            <div class="nc-content">
+                                <span class="nc-date">${item.fecha}</span>
+                                <h3>${item.titulo}</h3>
+                                <p>${item.descripcion}</p>
+                                <a href="${link}" class="btn-action">Leer Noticia <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </article>
+                    `;
+                });
+            } else {
+                container.innerHTML = "<p>No hay noticias cargadas.</p>";
             }
         }
-        cargarNoticias();
+
+        // Arrancamos
+        mostrarNoticias();
     </script>
 </body>
 </html>

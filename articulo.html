@@ -125,50 +125,53 @@
     <div class="wave-footer"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"></path></svg></div>
     <footer><p>© 2024 Acción Católica Argentina - N.S. de Fátima</p></footer>
 
-    <script>
-        async function cargarArticulo() {
-            const params = new URLSearchParams(window.location.search);
-            const idBuscado = params.get('id'); // Ej: pesebre-viviente
-            
-            if(!idBuscado) {
-                window.location.href = 'noticias.html';
-                return;
+<script>
+        // --- BASE DE DATOS (Tiene que ser igual a la de noticias.html) ---
+        const baseDeDatos = [
+            {
+                id: "pesebre-viviente",
+                titulo: "Gran Pesebre Viviente Comunitario",
+                fecha: "Sábado 28 Dic | 20:30 hs",
+                cuerpo: "¡Una noche para encender la esperanza!\n\nComo cada año, los grupos de la Acción Católica han preparado con mucho amor el tradicional Pesebre Viviente.\n\n📍 Lugar: Atrio de la Parroquia.\n⏰ Horario: 20:30 hs.\n🪑 Recomendación: ¡Traé tu reposera!\n\nAl finalizar, compartiremos un brindis.",
+                imagen: "./img/pesebre.jpg"
+            },
+            {
+                id: "inscripciones-2025",
+                titulo: "Abiertas las Inscripciones 2025",
+                fecha: "Marzo 2025",
+                cuerpo: "Si tenés entre 5 y 18 años, te invitamos a formar parte de nuestros grupos. Acercate a secretaría parroquial los sábados por la tarde para más información.",
+                imagen: "https://images.unsplash.com/photo-1511649475669-e288648b2339?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
             }
+        ];
 
-            try {
-                // 1. Leemos el archivo
-                const response = await fetch('noticias.json');
-                const noticias = await response.json();
+        // --- LÓGICA ---
+        const params = new URLSearchParams(window.location.search);
+        const idBuscado = params.get('id');
+        
+        const loader = document.getElementById('loading');
+        const article = document.getElementById('mainArticle');
 
-                // 2. Buscamos la noticia correcta
-                const noticia = noticias.find(n => n.id === idBuscado);
+        if(idBuscado) {
+            // Buscamos en la lista local
+            const noticia = baseDeDatos.find(n => n.id === idBuscado);
 
-                if (noticia) {
-                    // 3. Rellenamos la página
-                    document.title = noticia.titulo + " | A.C.A.";
-                    document.getElementById('artTitle').innerText = noticia.titulo;
-                    document.getElementById('artDate').innerText = noticia.fecha;
-                    document.getElementById('artBody').innerText = noticia.cuerpo;
-                    
-                    if(noticia.imagen) {
-                        document.getElementById('artImg').src = noticia.imagen;
-                    } else {
-                        document.getElementById('artImg').style.display = 'none';
-                    }
+            if (noticia) {
+                // Rellenamos
+                document.title = noticia.titulo;
+                document.getElementById('artTitle').innerText = noticia.titulo;
+                document.getElementById('artDate').innerText = noticia.fecha;
+                document.getElementById('artBody').innerText = noticia.cuerpo;
+                document.getElementById('artImg').src = noticia.imagen;
 
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('mainArticle').classList.remove('hidden');
-                } else {
-                    document.getElementById('loading').innerHTML = "Noticia no encontrada.<br><a href='noticias.html'>Volver</a>";
-                }
-
-            } catch (error) {
-                console.error(error);
-                document.getElementById('loading').innerText = "Error cargando la noticia.";
+                // Mostramos
+                loader.classList.add('hidden');
+                article.classList.remove('hidden');
+            } else {
+                loader.innerHTML = "Noticia no encontrada.";
             }
+        } else {
+            window.location.href = 'noticias.html';
         }
-
-        cargarArticulo();
     </script>
 </body>
 </html>
