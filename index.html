@@ -1,36 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Renovacion ACA fatima</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>ACA Fátima | Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- SISTEMA DE COLORES DINÁMICO --- */
+        :root {
+            --bg: #ffffff;
+            --bg-soft: #F0F7FF;
+            --texto: #1E293B;
+            --texto-light: #64748B;
+            --celeste: #00A3FF;
+            --celeste-deep: #0076B9;
+            --border: #E2E8F0;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        /* Variables para Modo Oscuro */
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-soft: #1e293b;
+            --texto: #f1f5f9;
+            --texto-light: #94a3b8;
+            --border: #334155;
+            --glass: rgba(15, 23, 42, 0.8);
+            --shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--texto);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
+
+        /* --- NAVBAR DINÁMICO --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 25px 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            background: var(--glass);
+            border-bottom: 1px solid transparent;
+        }
+
+        nav.scrolled {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { font-weight: 900; font-size: 1.3rem; color: var(--texto); text-decoration: none; }
+        .logo span { color: var(--celeste); }
+
+        .nav-actions { display: flex; align-items: center; gap: 20px; }
+
+        /* Botón Modo Oscuro */
+        .theme-toggle {
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            color: var(--texto);
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        /* --- HERO DINÁMICO --- */
+        .hero {
+            height: 100vh;
+            display: flex; align-items: center;
+            background: radial-gradient(circle at top right, var(--bg-soft), var(--bg));
+        }
+
+        .hero-h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            opacity: 0; transform: translateY(30px);
+        }
+
+        /* --- AVISO DE RENOVACIÓN (ESTILO NOTIFICACIÓN) --- */
+        .floating-notice {
+            background: var(--bg-soft);
+            border-left: 4px solid var(--celeste);
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin: 40px 0;
+            display: flex; align-items: center; gap: 20px;
+        }
+
+        .pulse-icon {
+            width: 12px; height: 12px;
+            background: var(--celeste);
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(0, 163, 255, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 163, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 163, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 163, 255, 0); }
+        }
+
+        /* --- CARDS CON EFECTO HOVER DINÁMICO --- */
+        .grid-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 100px 0;
+        }
+
+        .card {
+            background: var(--bg);
+            padding: 50px 40px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow);
+            border-color: var(--celeste);
+        }
+
+        /* --- ANIMACIONES DE ENTRADA --- */
+        .fade-in {
+            animation: fadeIn 1s forwards ease-out;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero { text-align: center; }
+            .nav-actions .btn-main { display: none; }
+        }
+    </style>
 </head>
-<body>
-    <section id="status-update" class="reveal">
-    <div class="container">
-        <div class="glass-alert">
-            <div class="status-badge">
-                <span class="pulse-dot"></span>
-                En Desarrollo
-            </div>
-            <div class="alert-content">
-                <div class="alert-icon">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </div>
-                <div class="alert-text">
-                    <h2>Estamos renovando nuestra casa digital</h2>
-                    <p>Estamos puliendo cada detalle para reflejar la esencia de <strong>ACA Fátima</strong>. Pronto descubrirás nuevas secciones, galerías y recursos.</p>
-                </div>
-            </div>
-            <div class="progress-container">
-                <div class="progress-label">Progreso de actualización</div>
-                <div class="progress-track">
-                    <div class="progress-fill"></div>
-                </div>
+<body data-theme="light">
+
+    <nav id="mainNav">
+        <div class="container nav-content">
+            <a href="#" class="logo">ACA <span>FÁTIMA</span></a>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeBtn">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <a href="#contacto" class="logo" style="font-size: 0.8rem; border: 1px solid var(--celeste); padding: 8px 15px; border-radius: 10px;">Sumate</a>
             </div>
         </div>
-    </div>
-</section>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-h1 fade-in">Nuestra fe en <br><span style="color: var(--celeste);">movimiento.</span></h1>
+                
+                <div class="floating-notice fade-in" style="animation-delay: 0.3s;">
+                    <div class="pulse-icon"></div>
+                    <div>
+                        <strong style="display: block; font-size: 0.9rem;">Página en Construcción</strong>
+                        <p style="font-size: 0.85rem; color: var(--texto-light);">Estamos actualizando la pagina para que tu experiencia sea mucho más fluida.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+    </main>
+
+    <script>
+        // --- LÓGICA DE TEMA (DARK/LIGHT) ---
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+
+        // Cargar preferencia guardada
+        if (localStorage.getItem('theme') === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'light') {
+                body.setAttribute('data-theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.setAttribute('data-theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // --- LÓGICA DE NAVBAR ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // --- REVEAL DINÁMICO AL HACER SCROLL ---
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(40px)";
+            el.style.transition = "all 0.8s ease-out";
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
